@@ -1,4 +1,3 @@
-import { Result } from '@prisma/client/runtime/library.js';
 import { prisma } from '../prisma.js';
 import { Request, Response } from 'express';
 
@@ -23,7 +22,8 @@ export const getRecord = async (req: Request, res: Response) => {
       where: { id },
       select: {
         id: true,
-        model: true,
+        category,
+        model,
         brand,
         year,
         price,
