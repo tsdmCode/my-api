@@ -5,6 +5,8 @@ import { carRoutes } from './routes/carRoutes.js';
 import { categoryRoutes } from './routes/categoryRoutes.js';
 import { brandRoutes } from './routes/brandRoutes.js';
 import { loginRoutes } from './routes/loginRoutes.js';
+import { authRoutes } from './routes/authRoutes.js';
+
 // Indlæs miljøvariabler fra .env (uden at vise logs)
 dotenv.config({ quiet: true });
 
@@ -26,6 +28,7 @@ app.use('/login', loginRoutes);
 app.use('/api/cars', carRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/brands', brandRoutes);
+app.use('/authenticate', authRoutes);
 // Start serveren
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
