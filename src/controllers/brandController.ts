@@ -13,8 +13,8 @@ export const getRecord = async (req: Request, res: Response) => {
     const data = await prisma.brand.findUnique({
       where: { id },
       select: {
-        name,
-        logo,
+        name: true,
+        logoUrl: true,
       },
     });
     return res.status(201).json(data);
@@ -34,9 +34,9 @@ export const getRecords = async (req: Request, res: Response) => {
 };
 
 export const createRecord = async (req: Request, res: Response) => {
-  const { name, logo } = req.body;
+  const { name, logoUrl } = req.body;
 
-  if (!name || !logo) {
+  if (!name || !logoUrl) {
     return res.status(400).json({ error: 'peepee' });
   }
 
@@ -44,7 +44,7 @@ export const createRecord = async (req: Request, res: Response) => {
     const data = await prisma.brand.create({
       data: {
         name,
-        logo,
+        logoUrl,
       },
     });
     return res.status(201).json(data);
@@ -56,12 +56,12 @@ export const createRecord = async (req: Request, res: Response) => {
 
 export const updateRecord = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
-  const { name, logo } = req.body;
+  const { name, logoUrl } = req.body;
 
   if (!id) {
     return res.status(400).json({ error: 'ingen id' });
   }
-  if (!name || !logo) {
+  if (!name || !logoUrl) {
     return res.status(400).json({ error: 'All data is required' });
   }
 
@@ -70,7 +70,7 @@ export const updateRecord = async (req: Request, res: Response) => {
       where: { id },
       data: {
         name,
-        logo,
+        logoUrl,
       },
     });
 

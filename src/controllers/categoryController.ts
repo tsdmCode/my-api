@@ -81,7 +81,7 @@ export const getRecord = async (req: Request, res: Response) => {
     const data = await prisma.category.findUnique({
       where: { id },
       select: {
-        name,
+        name: true,
       },
     });
     return res.status(200).json(data);
