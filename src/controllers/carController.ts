@@ -1,9 +1,15 @@
 import { prisma } from '../prisma.js';
 import { Request, Response } from 'express';
+import { generatePrice, generateYear } from '../utils/generateRandom.js';
 
 export const getRecords = async (req: Request, res: Response) => {
   try {
-    const data = await prisma.car.findMany();
+    const data = await prisma.car.findMany({
+      include: {
+        brand: true,
+        fueltype: true,
+      },
+    });
     return res.status(200).json(data);
   } catch (error) {
     console.error(error);
@@ -22,12 +28,20 @@ export const getRecord = async (req: Request, res: Response) => {
       where: { id },
       select: {
         id: true,
-        category,
-        model,
-        brand,
-        year,
+        category: true,
+        model: true,
+        year: true,
         price,
-        fueltype,
+        fueltype: {
+          select: {
+            name: true,
+          },
+        },
+        brand: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
 
@@ -47,11 +61,11 @@ export const createRecord = async (req: Request, res: Response) => {
     const data = await prisma.car.create({
       data: {
         category,
-        brand: Number(brand),
+        brandId: Number(brand),
         model,
-        year: Number(year),
-        price: Number(price),
-        fueltype,
+        year: generateYear(),
+        price: generatePrice(),
+        fuelId: Number(fueltype),
       },
     });
     return res.status(201).json(data);

@@ -33,11 +33,14 @@ model User {
 model Car {
   id       Int    @id @default(autoincrement())
   category String
-  brand    Int
+  brandId  Int
   model    String
   year     Int
   price    Float
-  fueltype String
+  fuelId   Int
+
+  brand    Brand     @relation(fields: [brandId], references: [id])
+  fueltype Fueltypes @relation(fields: [fuelId], references: [id])
 
   @@map("cars")
 }
@@ -50,9 +53,18 @@ model Category {
 }
 
 model Brand {
-  id   Int    @id @default(autoincrement())
-  name String
-  logo String
+  id      Int    @id @default(autoincrement())
+  name    String
+  logoUrl String
+  cars    Car[]
 
   @@map("brands")
+}
+
+model Fueltypes {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  cars Car[]
+
+  @@map("fueltypes")
 }
