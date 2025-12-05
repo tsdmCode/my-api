@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { prisma } from '../src/prisma';
 import { generatePrice, generateYear } from '../src/utils/generateRandom';
+
 // Asynkron main-funktion som kører vores seed-data
 const main = async () => {
   // Sletter eksisterende data i bruger tabellen
@@ -9,6 +10,7 @@ const main = async () => {
   await prisma.category.deleteMany();
   await prisma.brand.deleteMany();
   await prisma.fueltypes.deleteMany();
+
   // Opretter en testbruger i databasen
   const user = await prisma.user.create({
     data: {
